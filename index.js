@@ -20,6 +20,7 @@ async function run() {
       const userCollection = database.collection("home");
       const userMemberCollection = database.collection("member");
       const mealCollection = database.collection("mealCount");
+      const expenseCollection = database.collection("expense");
       
      console.log('connected');
     
@@ -82,6 +83,23 @@ async function run() {
       const users=await cursor.toArray();
       res.send(users);
      })
+
+     //get expense api
+     app.get('/expense',async (req,res)=>
+     {
+       const cursor=expenseCollection.find ({})
+       const users=await cursor.toArray();
+       res.send(users);
+     })
+      //post expense
+      app.post('/expense', async (req,res)=>
+      {
+        
+        const newUser = req.body;
+        const result = await expenseCollection.insertOne(newUser);
+         console.log('hitting the post',req.body);
+         res.json(result);
+      })
 
 
     
