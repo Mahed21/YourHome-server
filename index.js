@@ -19,6 +19,7 @@ async function run() {
       const database = client.db("yourhome");
       const userCollection = database.collection("home");
       const userMemberCollection = database.collection("member");
+      const mealCollection = database.collection("mealCount");
       
      console.log('connected');
     
@@ -63,6 +64,26 @@ async function run() {
         console.log('hitting the post',req.body);
         res.json(result);
      })
+
+     //post Daily Meal
+     app.post('/mealCount', async (req,res)=>
+     {
+       
+       const newUser = req.body;
+       const result = await mealCollection.insertOne(newUser);
+        console.log('hitting the post',req.body);
+        res.json(result);
+     })
+     //get daily meal
+
+     app.get('/mealCount', async (req,res)=>
+     {
+      const cursor=mealCollection.find ({})
+      const users=await cursor.toArray();
+      res.send(users);
+     })
+
+
     
   
      
